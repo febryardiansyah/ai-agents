@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_gemini_ai/main.dart';
 import 'package:flutter_gemini_ai/chat_model.dart';
+import 'package:flutter_gemini_ai/constant.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 sealed class ChatBlocEvent extends Equatable {

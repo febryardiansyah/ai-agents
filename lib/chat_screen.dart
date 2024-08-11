@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gemini_ai/chat_bloc.dart';
-import 'package:flutter_gemini_ai/main.dart';
 import 'package:flutter_gemini_ai/chat_model.dart';
+import 'package:flutter_gemini_ai/constant.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class ChatScreen extends StatefulWidget {
