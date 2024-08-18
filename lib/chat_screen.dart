@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gemini_ai/bloc/chat_bloc.dart';
 import 'package:flutter_gemini_ai/chat_model.dart';
@@ -38,7 +39,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.grey.shade900,
       floatingActionButton: chatTextField(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: BlocListener<ImagePickerCubit, ImagePickerState>(
@@ -65,7 +65,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   return const Center(
                     child: Text(
                       'There are no messages yet, start chatting!',
-                      // style: TextStyle(color: Colors.white),
+                      style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   );
                 }
@@ -121,7 +121,7 @@ class _ChatScreenState extends State<ChatScreen> {
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.all(8),
-          color: Colors.white,
+          color: Colors.grey.shade900,
           child: Builder(builder: (context) {
             return Column(
               mainAxisSize: MainAxisSize.min,
@@ -244,9 +244,13 @@ class ChatWidget extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundColor: Colors.grey.shade800,
-                      maxRadius: 16,
-                      child: const Icon(Icons.person, color: Colors.white70),
+                      backgroundColor: Colors.grey.shade700,
+                      radius: 10,
+                      child: const Icon(
+                        Icons.person,
+                        color: Colors.white70,
+                        size: 14,
+                      ),
                     ),
                     const SizedBox(width: 8),
                     Expanded(
@@ -292,12 +296,6 @@ class ChatWidget extends StatelessWidget {
               },
               selectable: true,
               styleSheetTheme: MarkdownStyleSheetBaseTheme.material,
-              styleSheet: MarkdownStyleSheet(
-                  // p: const TextStyle(color: Colors.white),
-                  // h1: const TextStyle(color: Colors.white),
-                  // h2: const TextStyle(color: Colors.white),
-                  // h3: const TextStyle(color: Colors.white),
-                  ),
             )
           ],
         ]

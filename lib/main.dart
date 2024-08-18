@@ -35,10 +35,13 @@ class MyApp extends StatelessWidget {
           create: (_) => ImagePickerCubit(ImagePicker()),
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         title: 'Flutter Gemin-AI Chat',
         debugShowCheckedModeBanner: false,
-        home: ChatScreen(),
+        theme: ThemeData(
+          colorScheme: ColorScheme.dark(background: Colors.grey.shade900),
+        ),
+        home: const ChatScreen(),
       ),
     );
   }
