@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_gemini_ai/chat_model.dart';
-import 'package:flutter_gemini_ai/constant.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 sealed class ChatBlocEvent extends Equatable {
@@ -9,7 +8,7 @@ sealed class ChatBlocEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class StartChatEvent extends ChatBlocEvent {
+class StartChatEvent extends ChatBlocEvent {
   final String message;
 
   StartChatEvent({required this.message});
@@ -19,21 +18,19 @@ final class StartChatEvent extends ChatBlocEvent {
 }
 
 class ChatBloc extends Bloc<ChatBlocEvent, List<ChatModel>> {
-  ChatBloc() : super([]) {
+  ChatBloc(GenerativeModel model)
+      : _model = model,
+        super([]) {
     on<StartChatEvent>(_startChat);
   }
+
+  final GenerativeModel _model;
 
   Future<void> _startChat(
     StartChatEvent event,
     Emitter<List<ChatModel>> emit,
   ) async {
-    final model = GenerativeModel(
-      model: 'gemini-1.5-flash-latest',
-      // model: 'gemini-pro',
-      apiKey: APIKEY,
-    );
-
-    final chatSession = model.startChat();
+    final chatSession = _model.startChat();
 
     final newMessage = event.message;
     final tempMessages = <ChatModel>[];
