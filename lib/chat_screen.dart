@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gemini_ai/bloc/chat_bloc.dart';
 import 'package:flutter_gemini_ai/chat_model.dart';
@@ -42,6 +41,14 @@ class _ChatScreenState extends State<ChatScreen> {
       floatingActionButton: chatTextField(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: BlocListener<ImagePickerCubit, ImagePickerState>(
+        listenWhen: (prev, current) {
+          /// prevent the listener from being called when the image is removed
+          final isRemovePath = (prev.status == BlocStatus.loaded &&
+                  current.status == BlocStatus.loaded) &&
+              (prev.imagePaths.length != current.imagePaths.length);
+
+          return !isRemovePath;
+        },
         listener: (context, state) {
           if (state.status == BlocStatus.loading) {
             showLoadingDialog(context);
@@ -152,7 +159,11 @@ class _ChatScreenState extends State<ChatScreen> {
                               top: 4,
                               right: 4,
                               child: GestureDetector(
-                                onTap: clearImage,
+                                onTap: () {
+                                  context
+                                      .read<ImagePickerCubit>()
+                                      .removeImage(path);
+                                },
                                 child: const Icon(
                                   Icons.close,
                                   color: Colors.white,
@@ -187,10 +198,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100),
                     ),
-                    // filled: true,
-                    // fillColor: focusNode.hasFocus
-                    //     ? Colors.grey.shade400
-                    //     : Colors.grey.shade700,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 8),
                     suffixIcon: GestureDetector(
                       child: const Icon(Icons.send),

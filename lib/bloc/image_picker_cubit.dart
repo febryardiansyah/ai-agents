@@ -35,6 +35,12 @@ class ImagePickerCubit extends Cubit<ImagePickerState> {
     }
   }
 
+  void removeImage(String path) {
+    emit(state.copyWith(
+      imagePaths: state.imagePaths.where((e) => e != path).toList(),
+    ));
+  }
+
   void clearImage() {
     emit(state.copyWith(
       status: BlocStatus.initial,
