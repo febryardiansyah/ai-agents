@@ -3,7 +3,7 @@ A chat application that uses the Gemini AI API that available on both Android & 
 
 | Send Prompt |Result  |
 |--|--|
-| ![enter image description here](https://media.discordapp.net/attachments/1274653116091863092/1274674936769937408/Screenshot_1723976442.png?ex=66d0f4cb&is=66cfa34b&hm=4cf436ff6963044868499f1847f7f0fadfb82aa13e4230b9c0d36709e6480912&=&format=webp&quality=lossless&width=534&height=1066) | ![enter image description here](https://media.discordapp.net/attachments/1274653116091863092/1274674936392323114/Screenshot_1723976545.png?ex=66d0f4cb&is=66cfa34b&hm=2634967228e280c0368c0ae63ebf4aaadb358f6eed9736f99dbd2f2dcddb02c5&=&format=webp&quality=lossless&width=534&height=1066) |
+| ![Screenshot_1723976442](https://github.com/user-attachments/assets/61023710-ebda-498b-8197-3183f393ec32) | ![Screenshot_1723976545](https://github.com/user-attachments/assets/1d6b0d11-1a5c-4877-a265-b5efea7a35c6)|
 
 
 ## Getting started
