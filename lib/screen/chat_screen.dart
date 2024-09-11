@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gemini_ai/bloc/chat_bloc.dart';
-import 'package:flutter_gemini_ai/chat_model.dart';
+import 'package:flutter_gemini_ai/model/chat_model.dart';
 import 'package:flutter_gemini_ai/utils.dart';
 import 'package:flutter_gemini_ai/bloc/image_picker_cubit.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -128,7 +128,7 @@ class _ChatScreenState extends State<ChatScreen> {
       builder: (context, state) {
         return Container(
           padding: const EdgeInsets.all(8),
-          color: Colors.grey.shade900,
+          color: Theme.of(context).colorScheme.background,
           child: Builder(builder: (context) {
             return Column(
               mainAxisSize: MainAxisSize.min,

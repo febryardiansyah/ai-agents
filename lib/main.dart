@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gemini_ai/bloc/chat_bloc.dart';
-import 'package:flutter_gemini_ai/chat_screen.dart';
+import 'package:flutter_gemini_ai/bloc/theme_cubit.dart';
+import 'package:flutter_gemini_ai/screen/chat_screen.dart';
 import 'package:flutter_gemini_ai/utils.dart';
 import 'package:flutter_gemini_ai/bloc/image_picker_cubit.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
@@ -34,14 +35,33 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => ImagePickerCubit(ImagePicker()),
         ),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Gemin-AI Chat',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.dark(background: Colors.grey.shade900),
+        BlocProvider(
+          create: (_) => ThemeCubit()..getTheme(),
         ),
-        home: const ChatScreen(),
+      ],
+      child: Builder(
+        builder: (context) {
+          return BlocBuilder<ThemeCubit, bool>(
+            builder: (context, state) {
+              return MaterialApp(
+                title: 'Flutter Gemin-AI Chat',
+                debugShowCheckedModeBanner: false,
+                themeMode: state ? ThemeMode.dark : ThemeMode.light,
+                theme: ThemeData(
+                  colorScheme: const ColorScheme.light(
+                    background: Colors.white,
+                  ),
+                ),
+                darkTheme: ThemeData(
+                  colorScheme: ColorScheme.dark(
+                    background: Colors.grey.shade900,
+                  ),
+                ),
+                home: const ChatScreen(),
+              );
+            },
+          );
+        },
       ),
     );
   }
