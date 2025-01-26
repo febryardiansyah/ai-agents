@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gemini_ai/dependency_injection.dart';
 import 'package:flutter_gemini_ai/features/chat/screen/bloc/chat/chat_bloc.dart';
 import 'package:flutter_gemini_ai/bloc/theme_cubit.dart';
 import 'package:flutter_gemini_ai/core/constants/constants.dart';
 import 'package:flutter_gemini_ai/features/chat/screen/chat_screen.dart';
 import 'package:flutter_gemini_ai/features/chat/screen/bloc/image_picker/image_picker_cubit.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:image_picker/image_picker.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await registerDependencies();
 
   final model = GenerativeModel(
     model: 'gemini-1.5-flash-latest',
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           create: (_) => ChatBloc(model),
         ),
         BlocProvider(
-          create: (_) => ImagePickerCubit(ImagePicker()),
+          create: (_) => ImagePickerCubit(sl()),
         ),
         BlocProvider(
           create: (_) => ThemeCubit()..getTheme(),

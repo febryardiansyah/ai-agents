@@ -1,27 +1,27 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_gemini_ai/core/constants/constants.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_gemini_ai/core/resources/data_state.dart';
+import 'package:flutter_gemini_ai/features/chat/domain/usecases/pick_image.dart';
 
 part 'image_picker_state.dart';
 
-
 class ImagePickerCubit extends Cubit<ImagePickerState> {
-  ImagePickerCubit(ImagePicker picker)
-      : _picker = picker,
+  ImagePickerCubit(PickImageUseCase pickImageUsecase)
+      : _repo = pickImageUsecase,
         super(const ImagePickerState());
-  final ImagePicker _picker;
+  final PickImageUseCase _repo;
 
   void pickImage() async {
     emit(state.copyWith(status: BlocStatus.loading));
 
     try {
-      final images = await _picker.pickMultiImage();
+      final data = await _repo.call();
 
-      if (images.isNotEmpty) {
+      if (data is DataSuccess) {
         emit(state.copyWith(
           status: BlocStatus.loaded,
-          imagePaths: images.map((e) => e.path).toList(),
+          imagePaths: data.data?.map((e) => e.path).toList(),
         ));
       } else {
         emit(state.copyWith(

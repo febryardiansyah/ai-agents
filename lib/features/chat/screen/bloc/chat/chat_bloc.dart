@@ -7,8 +7,6 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 
 part 'chat_event.dart';
 
-
-
 class ChatBloc extends Bloc<ChatBlocEvent, List<ChatModel>> {
   ChatBloc(GenerativeModel model)
       : _model = model,
