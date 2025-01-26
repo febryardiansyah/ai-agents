@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-final class ChatModel extends Equatable {
+class ChatEntity extends Equatable {
   final String text;
   final bool isUser;
   final bool isLoading;
   final List<String> imagePaths;
 
-  const ChatModel({
+  const ChatEntity({
     required this.text,
     required this.isUser,
     this.isLoading = false,

@@ -2,32 +2,12 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_gemini_ai/model/chat_model.dart';
+import 'package:flutter_gemini_ai/features/chat/data/models/chat_model.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
-sealed class ChatBlocEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
+part 'chat_event.dart';
 
-class StartChatEvent extends ChatBlocEvent {
-  final String message;
 
-  StartChatEvent({required this.message});
-
-  @override
-  List<Object?> get props => [message];
-}
-
-class StartImageChatEvent extends ChatBlocEvent {
-  final String message;
-  final List<String> imagePaths;
-
-  StartImageChatEvent({required this.imagePaths, required this.message});
-
-  @override
-  List<Object?> get props => [imagePaths, message];
-}
 
 class ChatBloc extends Bloc<ChatBlocEvent, List<ChatModel>> {
   ChatBloc(GenerativeModel model)
