@@ -4,4 +4,4 @@ abstract class UseCase<Type, Params> {
 
 abstract class Params {}
 
-class NoParams extends Params {}
+final class NoParams extends Params {}
