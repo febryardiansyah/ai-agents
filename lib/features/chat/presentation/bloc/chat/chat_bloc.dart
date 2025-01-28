@@ -2,22 +2,28 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_gemini_ai/core/constants/constants.dart';
+import 'package:flutter_gemini_ai/core/resources/data_state.dart';
 import 'package:flutter_gemini_ai/features/chat/data/models/chat_model.dart';
+import 'package:flutter_gemini_ai/features/chat/domain/usecases/send_chat.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 part 'chat_event.dart';
 
 class ChatBloc extends Bloc<ChatBlocEvent, List<ChatModel>> {
-  ChatBloc(GenerativeModel model)
-      : _model = model,
-        _chatSession = model.startChat(),
+  ChatBloc(this._useCase)
+      : _model = GenerativeModel(
+          model: 'gemini-1.5-flash-latest',
+          // model: 'gemini-pro',
+          apiKey: APIKEY,
+        ),
         super([]) {
     on<StartChatEvent>(_startChat);
     on<StartImageChatEvent>(_startImageChat);
   }
 
-  final ChatSession _chatSession;
   final GenerativeModel _model;
+  final SendChatUsecase _useCase;
 
   Future<void> _startChat(
     StartChatEvent event,
@@ -42,11 +48,11 @@ class ChatBloc extends Bloc<ChatBlocEvent, List<ChatModel>> {
       );
       emit([...tempMessages]);
 
-      final response = await _chatSession.sendMessage(Content.text(newMessage));
-      if (response.text != null) {
+      final response = await _useCase.call(newMessage);
+      if (response is DataSuccess && response.data != null) {
         /// replace the loading indicator with the response
         tempMessages[tempMessages.length - 1] = ChatModel(
-          text: response.text!,
+          text: response.data!,
           isUser: false,
           isLoading: false,
         );

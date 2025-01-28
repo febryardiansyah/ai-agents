@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_gemini_ai/core/constants/constants.dart';
 import 'package:flutter_gemini_ai/core/resources/data_state.dart';
+import 'package:flutter_gemini_ai/core/usecase/usecase.dart';
 import 'package:flutter_gemini_ai/features/chat/domain/usecases/pick_image.dart';
 
 part 'image_picker_state.dart';
@@ -16,7 +17,7 @@ class ImagePickerCubit extends Cubit<ImagePickerState> {
     emit(state.copyWith(status: BlocStatus.loading));
 
     try {
-      final data = await _repo.call();
+      final data = await _repo.call(NoParams());
 
       if (data is DataSuccess) {
         emit(state.copyWith(
