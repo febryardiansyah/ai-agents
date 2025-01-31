@@ -17,28 +17,68 @@ void main() {
   });
 
   group('ChatRepository', () {
-    test('send chat success', () async {
-      when(() => chatSource.sendMessage('hello'))
-          .thenAnswer((_) async => 'hello world');
+    group('send chat only', () {
+      test('send chat success', () async {
+        when(() => chatSource.sendMessage('hello'))
+            .thenAnswer((_) async => 'hello world');
 
-      final result = await chatRepository.sendMessage('hello');
+        final result = await chatRepository.sendMessage('hello');
 
-      expect(result, isA<DataSuccess<String>>());
-      expect(result.data, 'hello world');
+        expect(result, isA<DataSuccess<String>>());
+        expect(result.data, 'hello world');
 
-      verify(() => chatSource.sendMessage('hello')).called(1);
+        verify(() => chatSource.sendMessage('hello')).called(1);
+      });
+
+      test('send chat failure', () async {
+        when(() => chatSource.sendMessage('hello'))
+            .thenThrow('No Response from API');
+
+        final result = await chatRepository.sendMessage('hello');
+
+        expect(result, isA<DataError<String>>());
+        expect(result.error, 'No Response from API');
+
+        verify(() => chatSource.sendMessage('hello')).called(1);
+      });
     });
 
-    test('send chat failure', () async {
-      when(() => chatSource.sendMessage('hello'))
-          .thenThrow('No Response from API');
+    group('send chat with image', () {
+      test('send chat with image success', () async {
+        when(
+          () => chatSource.sendMessageWithImage('hello', ['image1', 'image2']),
+        ).thenAnswer((_) async => 'hello world');
 
-      final result = await chatRepository.sendMessage('hello');
+        final result = await chatRepository.sendMessageWithImage(
+          'hello',
+          ['image1', 'image2'],
+        );
 
-      expect(result, isA<DataError<String>>());
-      expect(result.error, 'No Response from API');
+        expect(result, isA<DataSuccess<String>>());
+        expect(result.data, 'hello world');
 
-      verify(() => chatSource.sendMessage('hello')).called(1);
+        verify(
+          () => chatSource.sendMessageWithImage('hello', ['image1', 'image2']),
+        ).called(1);
+      });
+
+      test('send chat with image failure', () async {
+        when(
+          () => chatSource.sendMessageWithImage('hello', ['image1', 'image2']),
+        ).thenThrow('No Response from API');
+
+        final result = await chatRepository.sendMessageWithImage(
+          'hello',
+          ['image1', 'image2'],
+        );
+
+        expect(result, isA<DataError<String>>());
+        expect(result.error, 'No Response from API');
+
+        verify(
+          () => chatSource.sendMessageWithImage('hello', ['image1', 'image2']),
+        ).called(1);
+      });
     });
   });
 }

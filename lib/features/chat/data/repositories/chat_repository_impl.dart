@@ -17,4 +17,19 @@ class ChatRepositoryImpl extends ChatRepository {
       return DataError(e.toString());
     }
   }
+
+  @override
+  Future<DataState<String>> sendMessageWithImage(
+      String message, List<String> imagePaths) async {
+    try {
+      final response = await _chatSource.sendMessageWithImage(
+        message,
+        imagePaths,
+      );
+
+      return DataSuccess(response);
+    } catch (e) {
+      return DataError(e.toString());
+    }
+  }
 }

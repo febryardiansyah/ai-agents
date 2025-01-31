@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => ChatBloc(sl()),
+          create: (_) => ChatBloc(sl(), sl()),
         ),
         BlocProvider(
           create: (_) => ImagePickerCubit(sl()),

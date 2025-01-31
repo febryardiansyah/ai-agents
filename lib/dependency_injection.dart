@@ -5,6 +5,7 @@ import 'package:flutter_gemini_ai/features/chat/data/repositories/chat_repositor
 import 'package:flutter_gemini_ai/features/chat/domain/repositories/chat_repository.dart';
 import 'package:flutter_gemini_ai/features/chat/domain/repositories/image_picker_repository.dart';
 import 'package:flutter_gemini_ai/features/chat/domain/usecases/send_chat.dart';
+import 'package:flutter_gemini_ai/features/chat/domain/usecases/send_chat_with_image.dart';
 import 'package:flutter_gemini_ai/features/chat/presentation/bloc/chat/chat_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
@@ -40,8 +41,9 @@ Future<void> registerDependencies() async {
   /// usecases
   sl.registerLazySingleton(() => PickImageUseCase(sl()));
   sl.registerLazySingleton(() => SendChatUsecase(sl()));
+  sl.registerLazySingleton(() => SendChatWithImageUsecase(sl()));
 
   /// bloc
   sl.registerFactory(() => ImagePickerCubit(sl()));
-  sl.registerFactory(() => ChatBloc(sl()));
+  sl.registerFactory(() => ChatBloc(sl(), sl()));
 }

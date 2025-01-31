@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter_gemini_ai/features/chat/data/data_sources/chat_source.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiSource implements ChatSource {
   final ChatSession _chatSession;
+  final GenerativeModel _model;
 
   GeminiSource({
     required GenerativeModel model,
-  }) : _chatSession = model.startChat();
+  })  : _model = model,
+        _chatSession = model.startChat();
 
   @override
   Future<String> sendMessage(String message) async {
@@ -20,8 +24,26 @@ class GeminiSource implements ChatSource {
   }
 
   @override
-  Future<String> sendMessageWithImage(String image) {
-    // TODO: implement sendMessageWithImage
-    throw UnimplementedError();
+  Future<String> sendMessageWithImage(
+    String message,
+    List<String> imagePaths,
+  ) async {
+    final content = [
+      Content.multi([
+        TextPart(message),
+        ...imagePaths.map((image) {
+          final imageAsBytes = File(image).readAsBytesSync();
+          return DataPart('image/jpeg', imageAsBytes);
+        }),
+      ])
+    ];
+
+    final response = await _model.generateContent(content);
+
+    if (response.text != null) {
+      return response.text!;
+    } else {
+      throw 'No Response from API';
+    }
   }
 }
