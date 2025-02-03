@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-const APIKEY = String.fromEnvironment('GEMINI_API_KEY');
-const GEMINI_ICON = 'assets/gemini-icon.png';
-
-enum BlocStatus { initial, loading, loaded, error }
-
 void showLoadingDialog(BuildContext context) {
   showDialog(
     context: context,

@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gemini_ai/bloc/chat_bloc.dart';
-import 'package:flutter_gemini_ai/model/chat_model.dart';
-import 'package:flutter_gemini_ai/utils.dart';
-import 'package:flutter_gemini_ai/bloc/image_picker_cubit.dart';
+import 'package:flutter_gemini_ai/features/chat/presentation/bloc/chat/chat_bloc.dart';
+import 'package:flutter_gemini_ai/core/constants/constants.dart';
+import 'package:flutter_gemini_ai/core/widgets/loading_dialog.dart';
+import 'package:flutter_gemini_ai/features/chat/data/models/chat_model.dart';
+import 'package:flutter_gemini_ai/features/chat/presentation/bloc/image_picker/image_picker_cubit.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class ChatScreen extends StatefulWidget {

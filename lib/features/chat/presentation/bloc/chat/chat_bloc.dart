@@ -1,45 +1,20 @@
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_gemini_ai/model/chat_model.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_gemini_ai/core/resources/data_state.dart';
+import 'package:flutter_gemini_ai/features/chat/data/models/chat_model.dart';
+import 'package:flutter_gemini_ai/features/chat/domain/usecases/send_chat.dart';
+import 'package:flutter_gemini_ai/features/chat/domain/usecases/send_chat_with_image.dart';
 
-sealed class ChatBlocEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class StartChatEvent extends ChatBlocEvent {
-  final String message;
-
-  StartChatEvent({required this.message});
-
-  @override
-  List<Object?> get props => [message];
-}
-
-class StartImageChatEvent extends ChatBlocEvent {
-  final String message;
-  final List<String> imagePaths;
-
-  StartImageChatEvent({required this.imagePaths, required this.message});
-
-  @override
-  List<Object?> get props => [imagePaths, message];
-}
+part 'chat_event.dart';
 
 class ChatBloc extends Bloc<ChatBlocEvent, List<ChatModel>> {
-  ChatBloc(GenerativeModel model)
-      : _model = model,
-        _chatSession = model.startChat(),
-        super([]) {
+  ChatBloc(this._sendChatUsecase, this._sendChatWithImageUsecase) : super([]) {
     on<StartChatEvent>(_startChat);
     on<StartImageChatEvent>(_startImageChat);
   }
 
-  final ChatSession _chatSession;
-  final GenerativeModel _model;
+  final SendChatUsecase _sendChatUsecase;
+  final SendChatWithImageUsecase _sendChatWithImageUsecase;
 
   Future<void> _startChat(
     StartChatEvent event,
@@ -64,11 +39,11 @@ class ChatBloc extends Bloc<ChatBlocEvent, List<ChatModel>> {
       );
       emit([...tempMessages]);
 
-      final response = await _chatSession.sendMessage(Content.text(newMessage));
-      if (response.text != null) {
+      final response = await _sendChatUsecase.call(newMessage);
+      if (response is DataSuccess && response.data != null) {
         /// replace the loading indicator with the response
         tempMessages[tempMessages.length - 1] = ChatModel(
-          text: response.text!,
+          text: response.data!,
           isUser: false,
           isLoading: false,
         );
@@ -98,16 +73,6 @@ class ChatBloc extends Bloc<ChatBlocEvent, List<ChatModel>> {
     StartImageChatEvent event,
     Emitter<List<ChatModel>> emit,
   ) async {
-    final content = [
-      Content.multi([
-        TextPart(event.message),
-        ...event.imagePaths.map((image) {
-          final imageAsBytes = File(image).readAsBytesSync();
-          return DataPart('image/jpeg', imageAsBytes);
-        }),
-      ])
-    ];
-
     final newMessage = event.message;
     final tempMessages = <ChatModel>[];
 
@@ -124,10 +89,14 @@ class ChatBloc extends Bloc<ChatBlocEvent, List<ChatModel>> {
       );
       emit([...tempMessages]);
 
-      final response = await _model.generateContent(content);
-      if (response.text != null) {
+      final result = await _sendChatWithImageUsecase.call(ChatWithImageParams(
+        message: newMessage,
+        imagePaths: event.imagePaths,
+      ));
+
+      if (result is DataSuccess && result.data != null) {
         tempMessages[tempMessages.length - 1] = ChatModel(
-          text: response.text!,
+          text: result.data!,
           isUser: false,
           isLoading: false,
         );
@@ -141,6 +110,7 @@ class ChatBloc extends Bloc<ChatBlocEvent, List<ChatModel>> {
         emit(tempMessages);
       }
     } catch (e) {
+      print(e);
       tempMessages[tempMessages.length - 1] = ChatModel(
         text: 'Error: $e',
         isUser: false,

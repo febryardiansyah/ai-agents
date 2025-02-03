@@ -1,39 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gemini_ai/bloc/chat_bloc.dart';
+import 'package:flutter_gemini_ai/dependency_injection.dart';
+import 'package:flutter_gemini_ai/features/chat/presentation/bloc/chat/chat_bloc.dart';
 import 'package:flutter_gemini_ai/bloc/theme_cubit.dart';
-import 'package:flutter_gemini_ai/screen/chat_screen.dart';
-import 'package:flutter_gemini_ai/utils.dart';
-import 'package:flutter_gemini_ai/bloc/image_picker_cubit.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_gemini_ai/features/chat/presentation/chat_screen.dart';
+import 'package:flutter_gemini_ai/features/chat/presentation/bloc/image_picker/image_picker_cubit.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await registerDependencies();
 
-  final model = GenerativeModel(
-    model: 'gemini-1.5-flash-latest',
-    // model: 'gemini-pro',
-    apiKey: APIKEY,
-  );
-
-  runApp(MyApp(model: model));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final GenerativeModel model;
-
-  const MyApp({super.key, required this.model});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => ChatBloc(model),
+          create: (_) => ChatBloc(sl(), sl()),
         ),
         BlocProvider(
-          create: (_) => ImagePickerCubit(ImagePicker()),
+          create: (_) => ImagePickerCubit(sl()),
         ),
         BlocProvider(
           create: (_) => ThemeCubit()..getTheme(),

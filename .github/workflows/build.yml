@@ -1,0 +1,31 @@
+name: Flutter
+
+on: 
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  flutter_jobs:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      
+      - name: install dependecies
+        run: flutter pub get
+
+      # - name: verify formatting
+      #   run: dart format --output=none --set-exit-if-changed .
+
+      # - name: analyze project source
+      #   run: flutter analyze --fatal-warnings
+      
+      - name: run tests
+        run: flutter test
