@@ -173,7 +173,7 @@ class _SearchBar extends StatelessWidget {
         hintText: "Search Tools..",
         hintStyle: const TextStyle(color: Colors.white70),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,
         ),
       ),

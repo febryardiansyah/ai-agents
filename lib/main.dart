@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gemini_ai/core/app_route.dart';
 import 'package:flutter_gemini_ai/core/resources/colors.dart';
 import 'package:flutter_gemini_ai/dependency_injection.dart';
 import 'package:flutter_gemini_ai/features/chat/presentation/bloc/chat/chat_bloc.dart';
-import 'package:flutter_gemini_ai/bloc/theme_cubit.dart';
 import 'package:flutter_gemini_ai/features/chat/presentation/bloc/image_picker/image_picker_cubit.dart';
 
 import 'features/home/presentation/page/home_screen.dart';
@@ -28,34 +28,27 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => ImagePickerCubit(sl()),
         ),
-        BlocProvider(
-          create: (_) => ThemeCubit()..getTheme(),
-        ),
       ],
-      child: Builder(
-        builder: (context) {
-          return BlocBuilder<ThemeCubit, bool>(
-            builder: (context, state) {
-              return MaterialApp(
-                title: 'Flutter Gemin-AI Chat',
-                debugShowCheckedModeBanner: false,
-                themeMode: state ? ThemeMode.dark : ThemeMode.light,
-                theme: ThemeData(
-                  primaryColor: AppColors.primary,
-                  colorScheme: const ColorScheme.light(
-                    background: Colors.white,
-                    onBackground: Colors.white,
-                  ),
-                  textTheme: const TextTheme(
-                    bodyText1: TextStyle(color: Colors.white),
-                    bodyText2: TextStyle(color: Colors.white),
-                  ),
-                ),
-                home: const HomeScreen(),
-              );
-            },
-          );
-        },
+      child: MaterialApp(
+        title: 'Aspectum AI',
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: (settings) => AppRoute.generateRoute(settings),
+        theme: ThemeData(
+          primaryColor: AppColors.primary,
+          scaffoldBackgroundColor: AppColors.primary,
+          appBarTheme: const AppBarTheme(
+            scrolledUnderElevation: 0,
+          ),
+          colorScheme: const ColorScheme.light(
+            background: Colors.white,
+            onBackground: Colors.white,
+          ),
+          textTheme: const TextTheme(
+            bodyText1: TextStyle(color: Colors.white),
+            bodyText2: TextStyle(color: Colors.white),
+          ),
+        ),
+        home: const HomeScreen(),
       ),
     );
   }

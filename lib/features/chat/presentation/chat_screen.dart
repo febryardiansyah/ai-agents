@@ -1,313 +1,298 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gemini_ai/features/chat/presentation/bloc/chat/chat_bloc.dart';
-import 'package:flutter_gemini_ai/core/constants/constants.dart';
-import 'package:flutter_gemini_ai/core/widgets/loading_dialog.dart';
-import 'package:flutter_gemini_ai/features/chat/data/models/chat_model.dart';
-import 'package:flutter_gemini_ai/features/chat/presentation/bloc/image_picker/image_picker_cubit.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_gemini_ai/core/constants/illustrations.dart';
+import 'package:flutter_gemini_ai/core/resources/colors.dart';
+import 'package:flutter_gemini_ai/core/utils/extensions/context_ext.dart';
+import 'package:flutter_gemini_ai/core/widgets/app_spacer.dart';
+import 'package:flutter_gemini_ai/core/widgets/app_text_form.dart';
+import 'package:flutter_svg/svg.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  final scrollCtrl = ScrollController();
-  final textController = TextEditingController();
-  final focusNode = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.grey.shade900,
-      statusBarIconBrightness: Brightness.light,
-      statusBarBrightness: Brightness.dark,
-    ));
-
-    focusNode.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final bottomInsets = MediaQuery.of(context).viewInsets.bottom;
+
     return Scaffold(
-      floatingActionButton: chatTextField(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: BlocListener<ImagePickerCubit, ImagePickerState>(
-        listenWhen: (prev, current) {
-          /// prevent the listener from being called when the image is removed
-          final isRemovePath = (prev.status == BlocStatus.loaded &&
-                  current.status == BlocStatus.loaded) &&
-              (prev.imagePaths.length != current.imagePaths.length);
-
-          return !isRemovePath;
-        },
-        listener: (context, state) {
-          if (state.status == BlocStatus.loading) {
-            showLoadingDialog(context);
-          }
-          if (state.status == BlocStatus.error) {
-            Navigator.pop(context);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage)),
-            );
-          }
-          if (state.status == BlocStatus.loaded) {
-            Navigator.pop(context);
-          }
-        },
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-            child: BlocBuilder<ChatBloc, List<ChatModel>>(
-              builder: (context, state) {
-                if (state.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'There are no messages yet, start chatting!',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  );
-                }
-
-                return ListView.builder(
-                  controller: scrollCtrl,
-                  padding: const EdgeInsets.all(20),
-                  itemCount: state.length,
-                  itemBuilder: (context, index) {
-                    final message = state[index];
-
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: message.isUser ? 0 : 32),
-                      child: ChatWidget(chatData: message),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: bottomInsets),
+        child: const ChatInput(),
       ),
-    );
-  }
-
-  void scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      scrollCtrl.animateTo(
-        scrollCtrl.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    });
-  }
-
-  void sendMessage(String message, [List<String> imagePath = const []]) async {
-    textController.clear();
-    if (imagePath.isNotEmpty) {
-      context
-          .read<ChatBloc>()
-          .add(StartImageChatEvent(message: message, imagePaths: imagePath));
-    } else {
-      context.read<ChatBloc>().add(StartChatEvent(message: message));
-    }
-    clearImage();
-    scrollToBottom();
-  }
-
-  void clearImage() => context.read<ImagePickerCubit>().clearImage();
-
-  Widget chatTextField() {
-    return BlocBuilder<ImagePickerCubit, ImagePickerState>(
-      builder: (context, state) {
-        return Container(
-          padding: const EdgeInsets.all(8),
-          color: Theme.of(context).colorScheme.background,
-          child: Builder(builder: (context) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (state.status == BlocStatus.loaded &&
-                    state.imagePaths.isNotEmpty) ...[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: state.imagePaths.map((path) {
-                        return Stack(
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade800,
-                                borderRadius: BorderRadius.circular(8),
-                                image: DecorationImage(
-                                  image: FileImage(File(path)),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 4,
-                              right: 4,
-                              child: GestureDetector(
-                                onTap: () {
-                                  context
-                                      .read<ImagePickerCubit>()
-                                      .removeImage(path);
-                                },
-                                child: const Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                  size: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                ],
-                TextFormField(
-                  focusNode: focusNode,
-                  controller: textController,
-                  // maxLines: 4,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textInputAction: TextInputAction.send,
-                  onFieldSubmitted: (value) {
-                    sendMessage(
-                      textController.text,
-                      state.status == BlocStatus.loaded ? state.imagePaths : [],
-                    );
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Enter a prompt here',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                    suffixIcon: GestureDetector(
-                      child: const Icon(Icons.send),
-                      onTap: () {
-                        focusNode.unfocus();
-                        sendMessage(
-                          textController.text,
-                          state.status == BlocStatus.loaded
-                              ? state.imagePaths
-                              : [],
-                        );
-                      },
-                    ),
-                    prefixIcon: GestureDetector(
-                      child: const Icon(Icons.add_photo_alternate_outlined),
-                      onTap: () {
-                        context.read<ImagePickerCubit>().pickImage();
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            );
-          }),
-        );
-      },
-    );
-  }
-}
-
-class ChatWidget extends StatelessWidget {
-  final ChatModel chatData;
-
-  const ChatWidget({super.key, required this.chatData});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (chatData.isUser) ...[
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade800,
-              borderRadius: BorderRadius.circular(8),
+      floatingActionButton:
+          bottomInsets < 1 ? const SuggestionStarters() : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      appBar: AppBar(
+        backgroundColor: AppColors.primary,
+        iconTheme: const IconThemeData(color: AppColors.white),
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        title: Row(
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.red,
+              ),
             ),
-            child: Column(
+            const AppSpacer.width(14),
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.grey.shade700,
-                      radius: 10,
-                      child: const Icon(
-                        Icons.person,
-                        color: Colors.white70,
-                        size: 14,
-                      ),
+                    const Text(
+                      'Math Solver',
+                      style: TextStyle(fontSize: 16, color: AppColors.white),
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        chatData.text,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    const AppSpacer.width(8),
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: AppColors.secondary,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(Illustrations.coin,
+                              width: 10, height: 10),
+                          const AppSpacer.width(4),
+                          const Text(
+                            '1',
+                            style:
+                                TextStyle(fontSize: 10, color: AppColors.white),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-                if (chatData.imagePaths.isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: chatData.imagePaths.map((e) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.file(File(e), height: 100),
-                      );
-                    }).toList(),
-                  ),
-                ],
+                const Row(
+                  children: [
+                    Text(
+                      'See details',
+                      style: TextStyle(fontSize: 10, color: AppColors.grey),
+                    ),
+                    AppSpacer.width(4),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: AppColors.grey,
+                      size: 10,
+                    ),
+                  ],
+                )
+              ],
+            ),
+            const Spacer(),
+            const Icon(Icons.bookmark_outline, color: AppColors.white),
+          ],
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(
+            color: AppColors.secondary,
+            height: 1.0,
+          ),
+        ),
+      ),
+      body: const ChatBody(),
+    );
+  }
+}
+
+class ChatBody extends StatelessWidget {
+  const ChatBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: 10,
+            ),
+            child: Column(
+              children: [
+                AssistantMessage(
+                  text:
+                      "Hello there! I'm an AI assistant created by OpenAI. I'm here to help you with information, answer your questions, and assist you with various tasks. How can I help you today?",
+                ),
+                AppSpacer.height(16),
+                UserMessage(text: "What is 1 + 1"),
+                AppSpacer.height(16),
+                AssistantMessage(
+                  text:
+                      "Hello there! I'm an AI assistant created by OpenAI. I'm here to help you with information, answer your questions, and assist you with various tasks. How can I help you today?",
+                ),
+                // AppSpacer.height(16),
+                // UserMessage(text: "What is 1 + 1"),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class AssistantMessage extends StatelessWidget {
+  final String text;
+  const AssistantMessage({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 24,
+            height: 24,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.red,
+            ),
+          ),
+          const AppSpacer.width(6),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(text, style: const TextStyle(color: Colors.white)),
+                const AppSpacer.height(8),
+                const Icon(Icons.copy, color: AppColors.grey, size: 14),
               ],
             ),
           ),
         ],
-        const SizedBox(height: 8),
-        if (!chatData.isUser) ...[
-          Image.asset(GEMINI_ICON, height: 24, width: 24),
-          const SizedBox(height: 8),
-          if (chatData.isLoading)
-            const Center(child: CircularProgressIndicator())
-          else ...[
-            MarkdownBody(
-              data: chatData.text,
-              onTapLink: (text, href, title) {
-                print('text: $text, href: $href, title: $title');
-              },
-              selectable: true,
-              styleSheetTheme: MarkdownStyleSheetBaseTheme.material,
-            )
+      ),
+    );
+  }
+}
+
+class UserMessage extends StatelessWidget {
+  final String text;
+  const UserMessage({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: SizedBox(
+        width: context.screenSize.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 18,
+              ),
+              decoration: const BoxDecoration(
+                color: AppColors.secondary,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  bottomRight: Radius.circular(8),
+                  bottomLeft: Radius.circular(8),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    text,
+                    style: const TextStyle(
+                      color: AppColors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const AppSpacer.height(10),
+                  Container(
+                    width: context.screenSize.width * 0.7,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: AppColors.grey,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const AppSpacer.width(6),
+            Container(
+              width: 24,
+              height: 24,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.red,
+              ),
+            ),
           ],
-        ]
-      ],
+        ),
+      ),
+    );
+  }
+}
+
+class ChatInput extends StatelessWidget {
+  const ChatInput({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.only(
+        right: 20,
+        left: 20,
+        bottom: 20,
+      ),
+      child: AppTextForm(
+        hint: 'Ask anything..',
+        prefixIcon: Icon(Icons.add_photo_alternate, color: AppColors.white),
+        suffixIcon: Icon(Icons.send, color: AppColors.white),
+      ),
+    );
+  }
+}
+
+class SuggestionStarters extends StatelessWidget {
+  const SuggestionStarters({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      child: Row(
+        children: List.generate(2, (index) {
+          return Expanded(
+            child: Container(
+              margin: EdgeInsets.only(
+                right: index == 0 ? 10 : 0,
+                left: index == 1 ? 10 : 0,
+              ),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 18,
+                vertical: 8,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: AppColors.secondary),
+                color: AppColors.primary,
+              ),
+              child: const Text(
+                'What Can you do?',
+                style: TextStyle(fontSize: 14),
+              ),
+            ),
+          );
+        }),
+      ),
     );
   }
 }
