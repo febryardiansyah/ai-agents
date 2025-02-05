@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini_ai/core/constants/illustrations.dart';
+import 'package:flutter_gemini_ai/core/resources/illustrations.dart';
 import 'package:flutter_gemini_ai/core/resources/colors.dart';
 import 'package:flutter_gemini_ai/core/utils/extensions/context_ext.dart';
 import 'package:flutter_gemini_ai/core/widgets/app_spacer.dart';
@@ -16,10 +16,10 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(bottom: bottomInsets),
-        child: const ChatInput(),
+        child: const _ChatInput(),
       ),
       floatingActionButton:
-          bottomInsets < 1 ? const SuggestionStarters() : null,
+          bottomInsets < 1 ? const _SuggestionStarters() : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
@@ -55,7 +55,7 @@ class ChatScreen extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          SvgPicture.asset(Illustrations.coin,
+                          SvgPicture.asset(IllustrationConstants.coin,
                               width: 10, height: 10),
                           const AppSpacer.width(4),
                           const Text(
@@ -96,13 +96,13 @@ class ChatScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: const ChatBody(),
+      body: const _ChatBody(),
     );
   }
 }
 
-class ChatBody extends StatelessWidget {
-  const ChatBody({super.key});
+class _ChatBody extends StatelessWidget {
+  const _ChatBody();
 
   @override
   Widget build(BuildContext context) {
@@ -116,14 +116,14 @@ class ChatBody extends StatelessWidget {
             ),
             child: Column(
               children: [
-                AssistantMessage(
+                _AssistantMessage(
                   text:
                       "Hello there! I'm an AI assistant created by OpenAI. I'm here to help you with information, answer your questions, and assist you with various tasks. How can I help you today?",
                 ),
                 AppSpacer.height(16),
-                UserMessage(text: "What is 1 + 1"),
+                _UserMessage(text: "What is 1 + 1"),
                 AppSpacer.height(16),
-                AssistantMessage(
+                _AssistantMessage(
                   text:
                       "Hello there! I'm an AI assistant created by OpenAI. I'm here to help you with information, answer your questions, and assist you with various tasks. How can I help you today?",
                 ),
@@ -138,9 +138,9 @@ class ChatBody extends StatelessWidget {
   }
 }
 
-class AssistantMessage extends StatelessWidget {
+class _AssistantMessage extends StatelessWidget {
   final String text;
-  const AssistantMessage({super.key, required this.text});
+  const _AssistantMessage({required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -174,9 +174,9 @@ class AssistantMessage extends StatelessWidget {
   }
 }
 
-class UserMessage extends StatelessWidget {
+class _UserMessage extends StatelessWidget {
   final String text;
-  const UserMessage({super.key, required this.text});
+  const _UserMessage({required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -239,8 +239,8 @@ class UserMessage extends StatelessWidget {
   }
 }
 
-class ChatInput extends StatelessWidget {
-  const ChatInput({super.key});
+class _ChatInput extends StatelessWidget {
+  const _ChatInput();
 
   @override
   Widget build(BuildContext context) {
@@ -259,8 +259,8 @@ class ChatInput extends StatelessWidget {
   }
 }
 
-class SuggestionStarters extends StatelessWidget {
-  const SuggestionStarters({super.key});
+class _SuggestionStarters extends StatelessWidget {
+  const _SuggestionStarters();
 
   @override
   Widget build(BuildContext context) {

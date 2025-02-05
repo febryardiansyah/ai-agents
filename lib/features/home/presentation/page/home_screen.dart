@@ -3,6 +3,7 @@ import 'package:flutter_gemini_ai/core/resources/colors.dart';
 import 'package:flutter_gemini_ai/core/widgets/agent_cards/agent_card_large.dart';
 import 'package:flutter_gemini_ai/core/widgets/agent_cards/agent_card_small.dart';
 import 'package:flutter_gemini_ai/core/widgets/app_spacer.dart';
+import 'package:flutter_gemini_ai/core/widgets/app_text_form.dart';
 import 'package:flutter_gemini_ai/core/widgets/label.dart';
 import 'package:flutter_gemini_ai/core/widgets/section_header.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -165,18 +166,9 @@ class _SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: AppColors.secondary,
-        prefixIcon: const Icon(Icons.search, color: Colors.white70),
-        hintText: "Search Tools..",
-        hintStyle: const TextStyle(color: Colors.white70),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
-      ),
+    return const AppTextForm(
+      prefixIcon: Icon(Icons.search, color: Colors.white70),
+      hint: "Search Tools..",
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter_gemini_ai/core/constants/constants.dart';
+import 'package:flutter_gemini_ai/core/resources/constants.dart';
 import 'package:flutter_gemini_ai/features/chat/data/data_sources/chat_source.dart';
 import 'package:flutter_gemini_ai/features/chat/data/data_sources/gemini_source.dart';
 import 'package:flutter_gemini_ai/features/chat/data/repositories/chat_repository_impl.dart';

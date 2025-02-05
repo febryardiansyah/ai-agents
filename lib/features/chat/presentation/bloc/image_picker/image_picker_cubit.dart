@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_gemini_ai/core/constants/constants.dart';
+import 'package:flutter_gemini_ai/core/resources/constants.dart';
 import 'package:flutter_gemini_ai/core/resources/data_state.dart';
 import 'package:flutter_gemini_ai/core/usecase/usecase.dart';
 import 'package:flutter_gemini_ai/features/chat/domain/usecases/pick_image.dart';

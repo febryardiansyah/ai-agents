@@ -6,8 +6,6 @@ import 'package:flutter_gemini_ai/dependency_injection.dart';
 import 'package:flutter_gemini_ai/features/chat/presentation/bloc/chat/chat_bloc.dart';
 import 'package:flutter_gemini_ai/features/chat/presentation/bloc/image_picker/image_picker_cubit.dart';
 
-import 'features/home/presentation/page/home_screen.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await registerDependencies();
@@ -33,6 +31,7 @@ class MyApp extends StatelessWidget {
         title: 'Aspectum AI',
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (settings) => AppRoute.generateRoute(settings),
+        initialRoute: AppRoute.login,
         theme: ThemeData(
           primaryColor: AppColors.primary,
           scaffoldBackgroundColor: AppColors.primary,
@@ -48,7 +47,6 @@ class MyApp extends StatelessWidget {
             bodyText2: TextStyle(color: Colors.white),
           ),
         ),
-        home: const HomeScreen(),
       ),
     );
   }
