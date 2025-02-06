@@ -18,6 +18,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appRoute = AppRouter();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -27,11 +29,10 @@ class MyApp extends StatelessWidget {
           create: (_) => ImagePickerCubit(sl()),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Aspectum AI',
         debugShowCheckedModeBanner: false,
-        onGenerateRoute: (settings) => AppRoute.generateRoute(settings),
-        initialRoute: AppRoute.login,
+        routerConfig: appRoute.config(),
         theme: ThemeData(
           primaryColor: AppColors.primary,
           scaffoldBackgroundColor: AppColors.primary,

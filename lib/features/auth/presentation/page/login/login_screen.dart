@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_gemini_ai/core/app_route.gr.dart';
 import 'package:flutter_gemini_ai/core/resources/colors.dart';
 import 'package:flutter_gemini_ai/core/resources/illustrations.dart';
 import 'package:flutter_gemini_ai/core/resources/images.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_gemini_ai/core/widgets/app_spacer.dart';
 import 'package:flutter_gemini_ai/core/widgets/app_text_form.dart';
 import 'package:flutter_svg/svg.dart';
 
+@RoutePage()
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -36,10 +39,10 @@ class LoginScreen extends StatelessWidget {
                     height: double.infinity,
                     fit: BoxFit.cover,
                   ),
-                  const Align(
+                  Align(
                     alignment: Alignment.bottomLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         left: 24,
                         right: 40,
                         bottom: 40,
@@ -48,30 +51,35 @@ class LoginScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
+                          const Text(
                             'Sign in to your Account',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 32,
                             ),
                           ),
-                          AppSpacer.height(12),
-                          Text.rich(
-                            TextSpan(
-                              text: "Don't have an account?",
-                              children: [
-                                TextSpan(
-                                  text: ' Sign up',
-                                  style: TextStyle(
-                                    color: AppColors.blue,
-                                    decoration: TextDecoration.underline,
+                          const AppSpacer.height(12),
+                          GestureDetector(
+                            onTap: () {
+                              context.router.push(const RegisterRoute());
+                            },
+                            child: const Text.rich(
+                              TextSpan(
+                                text: "Don't have an account?",
+                                children: [
+                                  TextSpan(
+                                    text: ' Sign up',
+                                    style: TextStyle(
+                                      color: AppColors.blue,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12,
+                                ],
+                              ),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ],

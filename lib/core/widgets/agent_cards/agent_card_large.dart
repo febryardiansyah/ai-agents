@@ -1,5 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini_ai/core/app_route.dart';
+import 'package:flutter_gemini_ai/core/app_route.gr.dart';
 import 'package:flutter_gemini_ai/core/resources/colors.dart';
 import 'package:flutter_gemini_ai/core/widgets/app_spacer.dart';
 
@@ -16,9 +17,11 @@ class AgentsCardLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = context.router;
+
     return GestureDetector(
-      onTap: (){
-        Navigator.pushNamed(context, AppRoute.chat);
+      onTap: () {
+        router.push(const ChatRoute());
       },
       child: Container(
         height: 151,
@@ -85,7 +88,8 @@ class AgentsCardLarge extends StatelessWidget {
                           SizedBox(width: 4),
                           Text(
                             "40",
-                            style: TextStyle(fontSize: 12, color: AppColors.grey),
+                            style:
+                                TextStyle(fontSize: 12, color: AppColors.grey),
                           ),
                         ],
                       ),
@@ -96,7 +100,8 @@ class AgentsCardLarge extends StatelessWidget {
                           SizedBox(width: 4),
                           Text(
                             "40",
-                            style: TextStyle(fontSize: 12, color: AppColors.grey),
+                            style:
+                                TextStyle(fontSize: 12, color: AppColors.grey),
                           ),
                         ],
                       ),

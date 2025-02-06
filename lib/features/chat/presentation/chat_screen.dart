@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini_ai/core/resources/illustrations.dart';
 import 'package:flutter_gemini_ai/core/resources/colors.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_gemini_ai/core/widgets/app_spacer.dart';
 import 'package:flutter_gemini_ai/core/widgets/app_text_form.dart';
 import 'package:flutter_svg/svg.dart';
 
+@RoutePage()
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
