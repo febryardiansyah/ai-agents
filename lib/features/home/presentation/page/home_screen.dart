@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini_ai/core/resources/colors.dart';
-import 'package:flutter_gemini_ai/core/widgets/agent_cards/agent_card_large.dart';
-import 'package:flutter_gemini_ai/core/widgets/agent_cards/agent_card_small.dart';
-import 'package:flutter_gemini_ai/core/widgets/app_spacer.dart';
-import 'package:flutter_gemini_ai/core/widgets/app_text_form.dart';
-import 'package:flutter_gemini_ai/core/widgets/label.dart';
-import 'package:flutter_gemini_ai/core/widgets/section_header.dart';
+import 'package:aspectumai/core/resources/colors.dart';
+import 'package:aspectumai/core/widgets/agent_cards/agent_card_large.dart';
+import 'package:aspectumai/core/widgets/agent_cards/agent_card_small.dart';
+import 'package:aspectumai/core/widgets/app_spacer.dart';
+import 'package:aspectumai/core/widgets/app_text_form.dart';
+import 'package:aspectumai/core/widgets/label.dart';
+import 'package:aspectumai/core/widgets/section_header.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 @RoutePage()

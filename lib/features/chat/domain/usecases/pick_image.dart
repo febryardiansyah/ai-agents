@@ -1,6 +1,6 @@
-import 'package:flutter_gemini_ai/core/resources/data_state.dart';
-import 'package:flutter_gemini_ai/core/usecase/usecase.dart';
-import 'package:flutter_gemini_ai/features/chat/domain/repositories/image_picker_repository.dart';
+import 'package:aspectumai/core/resources/data_state.dart';
+import 'package:aspectumai/core/usecase/usecase.dart';
+import 'package:aspectumai/features/chat/domain/repositories/image_picker_repository.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PickImageUseCase extends UseCase<DataState<List<XFile>>, NoParams> {

@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini_ai/core/app_route.gr.dart';
-import 'package:flutter_gemini_ai/core/resources/colors.dart';
-import 'package:flutter_gemini_ai/core/resources/images.dart';
-import 'package:flutter_gemini_ai/core/utils/extensions/context_ext.dart';
-import 'package:flutter_gemini_ai/core/widgets/app_button.dart';
-import 'package:flutter_gemini_ai/core/widgets/app_spacer.dart';
-import 'package:flutter_gemini_ai/core/widgets/app_text_form.dart';
+import 'package:aspectumai/core/app_route.gr.dart';
+import 'package:aspectumai/core/resources/colors.dart';
+import 'package:aspectumai/core/resources/images.dart';
+import 'package:aspectumai/core/utils/extensions/context_ext.dart';
+import 'package:aspectumai/core/widgets/app_button.dart';
+import 'package:aspectumai/core/widgets/app_spacer.dart';
+import 'package:aspectumai/core/widgets/app_text_form.dart';
 
 @RoutePage()
 class RegisterScreen extends StatelessWidget {

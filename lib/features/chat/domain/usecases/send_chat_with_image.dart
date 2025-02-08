@@ -1,6 +1,6 @@
-import 'package:flutter_gemini_ai/core/resources/data_state.dart';
-import 'package:flutter_gemini_ai/core/usecase/usecase.dart';
-import 'package:flutter_gemini_ai/features/chat/domain/repositories/chat_repository.dart';
+import 'package:aspectumai/core/resources/data_state.dart';
+import 'package:aspectumai/core/usecase/usecase.dart';
+import 'package:aspectumai/features/chat/domain/repositories/chat_repository.dart';
 
 class SendChatWithImageUsecase
     extends UseCase<DataState<String>, ChatWithImageParams> {

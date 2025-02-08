@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_gemini_ai/features/chat/data/data_sources/chat_source.dart';
+import 'package:aspectumai/features/chat/data/data_sources/chat_source.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiSource implements ChatSource {

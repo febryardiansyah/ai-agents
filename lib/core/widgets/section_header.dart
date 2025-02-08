@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini_ai/core/resources/colors.dart';
+import 'package:aspectumai/core/resources/colors.dart';
 
 class SectionHeader extends StatelessWidget {
   final String title;

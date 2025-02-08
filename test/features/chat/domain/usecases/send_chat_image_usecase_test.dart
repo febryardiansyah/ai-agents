@@ -1,6 +1,6 @@
-import 'package:flutter_gemini_ai/core/resources/data_state.dart';
-import 'package:flutter_gemini_ai/features/chat/domain/repositories/chat_repository.dart';
-import 'package:flutter_gemini_ai/features/chat/domain/usecases/send_chat_with_image.dart';
+import 'package:aspectumai/core/resources/data_state.dart';
+import 'package:aspectumai/features/chat/domain/repositories/chat_repository.dart';
+import 'package:aspectumai/features/chat/domain/usecases/send_chat_with_image.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 

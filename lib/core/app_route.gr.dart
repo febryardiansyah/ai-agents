@@ -9,13 +9,13 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i5;
-import 'package:flutter_gemini_ai/features/auth/presentation/page/login/login_screen.dart'
+import 'package:aspectumai/features/auth/presentation/page/login/login_screen.dart'
     as _i3;
-import 'package:flutter_gemini_ai/features/auth/presentation/page/register/register_screen.dart'
+import 'package:aspectumai/features/auth/presentation/page/register/register_screen.dart'
     as _i4;
-import 'package:flutter_gemini_ai/features/chat/presentation/chat_screen.dart'
+import 'package:aspectumai/features/chat/presentation/chat_screen.dart'
     as _i1;
-import 'package:flutter_gemini_ai/features/home/presentation/page/home_screen.dart'
+import 'package:aspectumai/features/home/presentation/page/home_screen.dart'
     as _i2;
 
 abstract class $AppRouter extends _i5.RootStackRouter {

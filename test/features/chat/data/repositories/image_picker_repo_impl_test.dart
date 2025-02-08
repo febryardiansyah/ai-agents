@@ -1,6 +1,6 @@
-import 'package:flutter_gemini_ai/core/resources/data_state.dart';
-import 'package:flutter_gemini_ai/features/chat/data/repositories/image_picker_repository_impl.dart';
-import 'package:flutter_gemini_ai/features/chat/domain/repositories/image_picker_repository.dart';
+import 'package:aspectumai/core/resources/data_state.dart';
+import 'package:aspectumai/features/chat/data/repositories/image_picker_repository_impl.dart';
+import 'package:aspectumai/features/chat/domain/repositories/image_picker_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mocktail/mocktail.dart';

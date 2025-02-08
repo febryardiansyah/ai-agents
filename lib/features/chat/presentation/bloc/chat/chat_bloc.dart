@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_gemini_ai/core/resources/data_state.dart';
-import 'package:flutter_gemini_ai/features/chat/data/models/chat_model.dart';
-import 'package:flutter_gemini_ai/features/chat/domain/usecases/send_chat.dart';
-import 'package:flutter_gemini_ai/features/chat/domain/usecases/send_chat_with_image.dart';
+import 'package:aspectumai/core/resources/data_state.dart';
+import 'package:aspectumai/features/chat/data/models/chat_model.dart';
+import 'package:aspectumai/features/chat/domain/usecases/send_chat.dart';
+import 'package:aspectumai/features/chat/domain/usecases/send_chat_with_image.dart';
 
 part 'chat_event.dart';
 

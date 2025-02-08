@@ -1,5 +1,5 @@
-import 'package:flutter_gemini_ai/features/chat/data/models/chat_model.dart';
-import 'package:flutter_gemini_ai/features/chat/domain/entities/chat_entity.dart';
+import 'package:aspectumai/features/chat/data/models/chat_model.dart';
+import 'package:aspectumai/features/chat/domain/entities/chat_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_gemini_ai/core/resources/constants.dart';
-import 'package:flutter_gemini_ai/core/resources/data_state.dart';
-import 'package:flutter_gemini_ai/core/usecase/usecase.dart';
-import 'package:flutter_gemini_ai/features/chat/domain/usecases/pick_image.dart';
+import 'package:aspectumai/core/resources/constants.dart';
+import 'package:aspectumai/core/resources/data_state.dart';
+import 'package:aspectumai/core/usecase/usecase.dart';
+import 'package:aspectumai/features/chat/domain/usecases/pick_image.dart';
 
 part 'image_picker_state.dart';
 

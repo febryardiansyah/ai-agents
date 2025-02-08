@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini_ai/core/resources/colors.dart';
-import 'package:flutter_gemini_ai/core/widgets/app_spacer.dart';
+import 'package:aspectumai/core/resources/colors.dart';
+import 'package:aspectumai/core/widgets/app_spacer.dart';
 
 enum AppTextFormType { normal, outlined }
 

@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gemini_ai/core/resources/illustrations.dart';
-import 'package:flutter_gemini_ai/core/resources/colors.dart';
-import 'package:flutter_gemini_ai/core/utils/extensions/context_ext.dart';
-import 'package:flutter_gemini_ai/core/widgets/app_spacer.dart';
-import 'package:flutter_gemini_ai/core/widgets/app_text_form.dart';
+import 'package:aspectumai/core/resources/illustrations.dart';
+import 'package:aspectumai/core/resources/colors.dart';
+import 'package:aspectumai/core/utils/extensions/context_ext.dart';
+import 'package:aspectumai/core/widgets/app_spacer.dart';
+import 'package:aspectumai/core/widgets/app_text_form.dart';
 import 'package:flutter_svg/svg.dart';
 
 @RoutePage()
