@@ -25,17 +25,17 @@ class LoginScreen extends StatelessWidget {
             /// header
             SizedBox(
               height: 263,
-              width: context.screenSize.width,
+              width: context.screenWidth,
               child: Stack(
                 children: [
                   Container(
-                    width: context.screenSize.width,
+                    width: context.screenWidth,
                     height: double.infinity,
                     color: AppColors.primary,
                   ),
                   Image.asset(
                     ImageConstants.authBg,
-                    width: context.screenSize.width,
+                    width: context.screenWidth,
                     height: double.infinity,
                     fit: BoxFit.cover,
                   ),
@@ -123,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                   AppButton(
                     text: 'Log in',
                     onPressed: () {},
-                    width: context.screenSize.width,
+                    width: context.screenWidth,
                   ),
                   const AppSpacer.height(24),
                   const Row(
@@ -154,7 +154,7 @@ class LoginScreen extends StatelessWidget {
                   const AppSpacer.height(16),
                   AppButton(
                     onPressed: () {},
-                    width: context.screenSize.width,
+                    width: context.screenWidth,
                     type: AppButtonType.outlined,
                     body: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

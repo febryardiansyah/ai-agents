@@ -10,16 +10,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await registerDependencies();
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final appRoute = AppRouter();
 
   @override
   Widget build(BuildContext context) {
-    final appRoute = AppRouter();
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(

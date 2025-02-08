@@ -185,7 +185,7 @@ class _UserMessage extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
-        width: context.screenSize.width,
+        width: context.screenWidth,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,7 +215,7 @@ class _UserMessage extends StatelessWidget {
                   ),
                   const AppSpacer.height(10),
                   Container(
-                    width: context.screenSize.width * 0.7,
+                    width: context.screenWidth * 0.7,
                     height: 200,
                     decoration: BoxDecoration(
                       color: AppColors.grey,
